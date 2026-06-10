@@ -1,4 +1,5 @@
 from config import database
+
 class User():
     db = database.DataBase()
     def __init__(self, name, account_number):
@@ -62,10 +63,9 @@ class User():
                     print(f"{amount} Successfully transferred from account number {self.account_number} to {other}")
                 except Exception as e:
                     print("Transaction Failed", e) 
-                      
+
     def view_balance(self):
         query = "SELECT balance FROM users WHERE account_number = %s"
         self.db.cunn.execute(query, (self.account_number,))
         current_balance = self.db.cunn.fetchaone()
         print(f"Your Current balance is: {current_balance}")
-
