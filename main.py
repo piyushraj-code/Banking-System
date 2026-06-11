@@ -3,10 +3,11 @@ from models import user
 from utils import utils
 current_user = None
 def main():
+    global current_user
     Auth = authentication.Authentication()
     while True:
         if current_user:
-            utils.user_interface()
+            utils.user_interface(current_user)
             command = int(input("Enter your command: "))
             if command == 1:
                 amount = int(input("Enter amount to deposit: "))
@@ -25,6 +26,7 @@ def main():
             elif command == 6:
                 current_user = None
             elif command == 7:
+
                 break 
         else:
             utils.interface()
