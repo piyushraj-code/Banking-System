@@ -1,12 +1,19 @@
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+database_url = os.getenv("DATABASE_URL")
+db_password = os.getenv("DB_PASSWORD")
 class DataBase():
     def __init__(self):
         try:
             self.db = mysql.connector.connect(
-                host = "127.0.0.1",
+                host = database_url,
                 port = 3306,
                 user = "root",
-                password = "1908",
+                password = db_password,
                 database="banking_system"
             )
             self.cunn = self.db.cursor()
