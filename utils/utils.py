@@ -20,7 +20,7 @@ def interface():
 def user_interface(user):
     print("-------------------------------------------------------")
     print("-------------------------------------------------------")
-    print(f"Welcome {user}")
+    print(f"Welcome, {user}")
     print("Enter 1 to deposite")
     print("Enter 2 to withdraw: ")
     print("Enter 3 to Transfer to another account")

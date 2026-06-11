@@ -7,7 +7,7 @@ class User():
         self.account_number = account_number
 
     def __str__(self):
-        return f"Name: {self.name} || Account Number: {self.account_number}"
+        return f"{self.name} || Account Number: {self.account_number}"
 
     def deposite(self, amount):
         if amount <= 0:

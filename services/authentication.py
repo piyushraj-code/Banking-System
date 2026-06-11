@@ -37,7 +37,7 @@ class Authentication():
                 query = "SELECT name FROM users WHERE account_number = %s"
                 self.db.cunn.execute(query, (account_number,))
                 name = self.db.cunn.fetchone()
-                return user.User(name, account_number)
+                return user.User(name[0], account_number)
             else:
                 print("Invaid account number or password")
         except Exception as e:
