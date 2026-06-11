@@ -9,3 +9,4 @@ def get_details():
     balance = float(input("Enter initial deposit: "))
     password = input("Enter password: ")
     return name, balance, password
+

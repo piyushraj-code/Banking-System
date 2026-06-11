@@ -32,7 +32,12 @@ class Authentication():
             self.db.cunn.execute(query, (account_number, ))
             if bcrypt.checkpw(self.db.cunn.fetchone().encode(), password.encode()):
                 print("Login SuccessfuL")
-                return user.User()
+                query = "SELECT name FROM users WHERE account_number = %s"
+                self.db.cunn.execute(query, (account_number,))
+                name = self.db.cunn.fetchone()
+                return user.User(name, account_number)
+            else:
+                print("Invaid account number or password")
         except Exception as e:
-            pass  
+            print("Can't login Please try again: ", e)
         
