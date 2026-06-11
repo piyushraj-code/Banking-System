@@ -60,8 +60,8 @@ class User():
                     query = "UPDATE users SET balance = %s WHERE account_number = %s"
                     self.db.cunn.execute(query, (other_final, other))
                     self.db.commit()
-                    query = "INSERT INTO transactions (from_account, to_account) values (%s, %s)"
-                    self.db.cunn.execute(query, (self.account_number, other))
+                    query = "INSERT INTO transactions (from_account, to_account, amount) values (%s, %s, %s)"
+                    self.db.cunn.execute(query, (self.account_number, other, amount))
                     self.db.commit()
                     print(f"{amount} Successfully transferred from account number {self.account_number} to {other}")
                 except Exception as e:

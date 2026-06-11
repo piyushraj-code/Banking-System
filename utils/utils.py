@@ -25,6 +25,6 @@ def user_interface(user):
     print("Enter 2 to withdraw: ")
     print("Enter 3 to Transfer to another account")
     print("Enter 4 to view balance")
-    print("Enter 5 to logout")
-    print("Enter 6 to view transaction history")
+    print("Enter 5 to view transaction history")
+    print("Enter 6 to logout")
     print("Enter 7 to exit")
