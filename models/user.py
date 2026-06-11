@@ -84,6 +84,7 @@ class User():
                     self.db.db.commit()
                     print(f"{amount} Successfully transferred from account number {self.account_number} to {other}")
                 except Exception as e:
+                    self.db.conn.rollback()
                     print("Transaction Failed", e) 
 
     def view_balance(self):

@@ -1,10 +1,12 @@
 from services import authentication
+from config import database
 from models import user
 from utils import utils
 current_user = None
 def main():
+    db = database.DataBase()
     global current_user
-    Auth = authentication.Authentication()
+    Auth = authentication.Authentication(db)
     while True:
         if current_user:
             utils.user_interface(current_user)

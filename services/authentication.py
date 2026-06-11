@@ -3,8 +3,8 @@ import bcrypt
 from utils import utils
 from models import user
 class Authentication():
-    def __init__(self):
-        self.db = database.DataBase()
+    def __init__(self, db):
+        self.db = db
 
     def register(self):
         (name, balance, password) = utils.get_details()
@@ -31,7 +31,9 @@ class Authentication():
             self.db.cunn.execute(query, (account_number, ))
             result = self.db.cunn.fetchone()
             stored_hash = result[0]
-            if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+            if result is None:
+                print("Account Not Found!")
+            elif bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
                 print("Login SuccessfuL")
                 query = "SELECT name FROM users WHERE account_number = %s"
                 self.db.cunn.execute(query, (account_number,))
