@@ -5,7 +5,7 @@ class User():
     def __init__(self, name, account_number):
         self.name = name
         self.account_number = account_number
-    
+
     def __str__(self):
         return f"Name: {self.name} || Account Number: {self.account_number}"
 
@@ -72,3 +72,11 @@ class User():
         self.db.cunn.execute(query, (self.account_number,))
         current_balance = self.db.cunn.fetchaone()
         print(f"Your Current balance is: {current_balance}")
+
+    def view_transaction_history(self):
+        query = "SELECT (transaction_id, from_account, to_account, amount, transaction_date) FROM users WHERE account = %s"
+        self.db.cunn.execute(query, (self.account_number,))
+        history = self.db.cunn.fetchall()
+        for i in history():
+            print("-------------------------------------------------------")
+            print(f"Transaction id: {i[0]} || Transferred to: {i[2]} || Amount: {i[3]} || Date {i[4]}")
