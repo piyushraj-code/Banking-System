@@ -9,4 +9,22 @@ def get_details():
     balance = float(input("Enter initial deposit: "))
     password = input("Enter password: ")
     return name, balance, password
+def interface():
+    print("Welcome to MyBank")
+    print("-------------------------------------------------------")
+    print("-------------------------------------------------------")
+    print("Enter 1 to register new user: ")
+    print("Enter 2 to login to an existing user: ")
+    print("Enter 3 to exit: ")
 
+def user_interface(user):
+    print("-------------------------------------------------------")
+    print("-------------------------------------------------------")
+    print(f"Welcome {user}")
+    print("Enter 1 to deposite")
+    print("Enter 2 to withdraw: ")
+    print("Enter 3 to Transfer to another account")
+    print("Enter 4 to view balance")
+    print("Enter 5 to logout")
+    print("Enter 6 to view transaction history")
+    print("Enter 7 to exit")

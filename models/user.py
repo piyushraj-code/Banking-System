@@ -5,6 +5,9 @@ class User():
     def __init__(self, name, account_number):
         self.name = name
         self.account_number = account_number
+    
+    def __str__(self):
+        return f"Name: {self.name} || Account Number: {self.account_number}"
 
     def deposite(self, amount):
         if self.db.cunn:
