@@ -5,7 +5,6 @@ from models import user
 class Authentication():
     def __init__(self):
         self.db = database.DataBase()
-        self.salt = bcrypt.gensalt()
 
     def register(self):
         (name, balance, password) = utils.get_details()
@@ -37,7 +36,7 @@ class Authentication():
                 query = "SELECT name FROM users WHERE account_number = %s"
                 self.db.cunn.execute(query, (account_number,))
                 name = self.db.cunn.fetchone()
-                return user.User(name[0], account_number)
+                return user.User(name[0], account_number, self.db)
             else:
                 print("Invaid account number or password")
         except Exception as e:

@@ -1,8 +1,8 @@
 from config import database
 
 class User():
-    db = database.DataBase()
-    def __init__(self, name, account_number):
+    
+    def __init__(self, name, account_number, db):
         self.name = name
         self.account_number = account_number
 
