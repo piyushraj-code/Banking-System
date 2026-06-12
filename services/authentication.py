@@ -30,10 +30,11 @@ class Authentication():
             query = "SELECT password FROM users WHERE account_number = %s"
             self.db.cunn.execute(query, (account_number, ))
             result = self.db.cunn.fetchone()
-            stored_hash = result[0]
             if result is None:
                 print("Account Not Found!")
-            elif bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+            
+            elif bcrypt.checkpw(password.encode("utf-8"), result[0].encode("utf-8")):
+
                 print("Login SuccessfuL")
                 query = "SELECT name FROM users WHERE account_number = %s"
                 self.db.cunn.execute(query, (account_number,))

@@ -10,7 +10,11 @@ def main():
     while True:
         if current_user:
             utils.user_interface(current_user)
-            command = int(input("Enter your command: "))
+            try:
+                command = int(input("Enter your command: "))
+            except Exception as e:
+                print("Enter a number ", e)
+                continue
             if command == 1:
                 amount = int(input("Enter amount to deposit: "))
                 current_user.deposite(amount)

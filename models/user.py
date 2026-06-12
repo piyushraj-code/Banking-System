@@ -5,6 +5,7 @@ class User():
     def __init__(self, name, account_number, db):
         self.name = name
         self.account_number = account_number
+        self.db = db
 
     def __str__(self):
         return f"{self.name} || Account Number: {self.account_number}"
@@ -26,6 +27,7 @@ class User():
                 self.db.cunn.execute(query, (self.account_number, amount, "Deposite"))
                 self.db.db.commit()
             except Exception as e:
+                self.db.db.rollback()
                 print("Deposite Failed!!", e)
 
     def withdraw(self, amount):
@@ -48,6 +50,7 @@ class User():
                     self.db.cunn.execute(query, (self.account_number, amount, "Withdrawn"))
                     self.db.db.commit()
                 except Exception as e:
+                    self.db.db.rollback()
                     print("Deposite Failed!!", e)
 
     def transfer(self, other, amount):
@@ -84,7 +87,7 @@ class User():
                     self.db.db.commit()
                     print(f"{amount} Successfully transferred from account number {self.account_number} to {other}")
                 except Exception as e:
-                    self.db.conn.rollback()
+                    self.db.db.rollback()
                     print("Transaction Failed", e) 
 
     def view_balance(self):
