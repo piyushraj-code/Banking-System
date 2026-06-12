@@ -15,13 +15,13 @@ class User():
             print("Amount must be greater than zero")
             return
         if self.db.cunn:
-            query = "SELECT balance FROM users where account_number = %s"
-            self.db.cunn.execute(query, (self.account_number,))
-            initial = self.db.cunn.fetchone()
-            final = initial[0] + amount
+            # query = "SELECT balance FROM users where account_number = %s"
+            # self.db.cunn.execute(query, (self.account_number,))
+            # initial = self.db.cunn.fetchone()
+            # final = initial[0] + amount
             try:
-                query = "UPDATE users SET balance = %s WHERE account_number = %s"
-                self.db.cunn.execute(query, (final, self.account_number))
+                query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
+                self.db.cunn.execute(query, (amount, self.account_number))
                 print(f"{amount} Successfully deposited to account number: {self.account_number}")
                 query = "INSERT INTO transactions (to_account, amount, transaction_type) VALUES (%s, %s, %s)"
                 self.db.cunn.execute(query, (self.account_number, amount, "Deposite"))
@@ -41,10 +41,9 @@ class User():
             if initial[0] < float(amount):
                 print("Not Enough Balance")
             else:
-                final = initial[0] - amount
                 try:
-                    query = "UPDATE users SET balance = %s WHERE account_number = %s"
-                    self.db.cunn.execute(query, (final, self.account_number))
+                    query = "UPDATE users SET balance = balance - %s WHERE account_number = %s"
+                    self.db.cunn.execute(query, (amount, self.account_number))
                     print(f"{amount} Successfully withdrawn from account number: {self.account_number}")
                     query = "INSERT INTO transactions (from_account, amount, transaction_type) VALUES (%s, %s, %s)"
                     self.db.cunn.execute(query, (self.account_number, amount, "Withdrawn"))
@@ -76,10 +75,10 @@ class User():
                     return
                 other_final = other_initial[0] + amount
                 try:
-                    query = "UPDATE users SET balance = %s WHERE account_number = %s"
-                    self.db.cunn.execute(query, (my_final, self.account_number))
+                    query = "UPDATE users SET balance = balance - %s WHERE account_number = %s"
+                    self.db.cunn.execute(query, (amount, self.account_number))
                     
-                    query = "UPDATE users SET balance = %s WHERE account_number = %s"
+                    query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
                     self.db.cunn.execute(query, (other_final, other))
                    
                     query = "INSERT INTO transactions (from_account, to_account, amount, transaction_type) values (%s, %s, %s, %s)"
