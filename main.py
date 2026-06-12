@@ -16,7 +16,15 @@ def main():
                 print("Enter a number ", e)
                 continue
             if command == 1:
-                amount = int(input("Enter amount to deposit: "))
+                while True:
+                    try:
+                        amount = int(input("Enter amount to deposit: "))
+                        if amount < 0:
+                            print("Amount can't be -ve")
+                        else:
+                            break
+                    except Exception as e:
+                        print("Please Enter a valid amount: ")
                 current_user.deposite(amount)
             elif command == 2:
                 amount = int(input("Enter amount to withdraw: "))

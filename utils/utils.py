@@ -5,7 +5,15 @@ def generate_account_number():
 
 def get_details():
     name = input("Enter your name: ")
-    balance = float(input("Enter initial deposit: "))
+    while True:
+        try:
+            balance = float(input("Enter initial deposit: "))
+            if balance < 0:
+                print("Initial Deposite can't be -ve")
+            else:
+                break
+        except Exception as e:
+            print("Please enter a valid amount: ", e)
     password = input("Enter password: ")
     return name, balance, password
 def interface():
