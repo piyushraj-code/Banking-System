@@ -9,7 +9,7 @@ class Authentication():
 
     def register(self, name, balance, password):
         #(name, balance, password) = utils.get_details()
-        cursor = self.db.db.cursor()
+        cursor = self.db.get_cursor()
         try:
             if not name or not password or not balance:
                 return {
@@ -50,7 +50,7 @@ class Authentication():
     def login(self, account_number, password):
         # account_number = int(input("Enter your account number: "))
         # password = input("Enter your password: ")
-        cursor = self.db.db.cursor()
+        cursor = self.db.get_cursor()
         try:
             query = "SELECT password FROM users WHERE account_number = %s"
             cursor.execute(query, (account_number, ))

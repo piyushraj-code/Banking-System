@@ -21,4 +21,10 @@ class DataBase():
         except mysql.connector.Error as e:
             print("Database Conncetion error:", e)
             self.db = None
-            
+    def get_cursor(self):
+        try:
+            self.db.ping(reconnect=True, attempts=3, delay=2)
+            return self.db.cursor()
+        except Exception as e:
+            print("Could not connect to database:", e)
+            return None       
