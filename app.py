@@ -104,10 +104,10 @@ def transfer():
       recipient= int(data.get("recipient"))  
       amount = int(data.get("amount"))
    except Exception as e:
-      return {
+      return jsonify({
          "success": False,
-         "message": "Enter valid ammount or account number"
-      }
+         "message": "Enter valid amount or account number"
+      })
    name = session["name"]
    account_number = session["account_number"]
    current_user = user.User(name, account_number, db)
