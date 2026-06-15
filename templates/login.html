@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        #successModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+    <input type="number" name="" id="account_number" placeholder="Account Number">
+    <br><br>
+    <input type="text" name="password" id="password" placeholder="Password">
+    <br><br>
+    <button onclick="login()">
+        Login
+    </button>
+    <div id="successModal" style="display:none;">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button onclick="goToLogin()"></button>
+        </div>
+    </div>
+    <br><br>
+    <a href="http://127.0.0.1:5000/register">New User? Register now</a>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

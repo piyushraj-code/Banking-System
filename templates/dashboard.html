@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        #successModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+    <button onclick="view_balance()">
+        View Balance
+    </button>
+    <br><br>
+
+    <button onclick="getDeposite()">
+        Deposite
+    </button>
+    <br><br>
+
+    <button onclick="getWithdraw()">
+        Withdraw
+    </button>
+    <br><br>
+    
+    <br><br>
+    <button onclick="getTransfer()">
+        Transfer
+    </button>
+    <br><br>
+    <button onclick="transaction_history()">
+        Transaction History
+    </button>
+    <br><br>
+    <button onclick="logout()">
+        Logout
+    </button>
+    <br><br>
+
+    <div id="dipo" style="display: none;">
+        <input type="number" name="amount" id="dipo-amount" placeholder="Amount">
+        <button onclick="deposite()">
+            Deposite
+        </button>
+    </div>
+    
+    <div id="with" style="display: none;">
+        <input type="number" name="amount" id="with-amount" placeholder="Amount">
+        <button onclick="withdraw()">
+            Withdraw
+        </button>
+    </div>
+
+    <div id="tran" style="display: none;">
+        <input type="number" name="amount" id="amount" placeholder="Amount">
+        <input type="number" name="recipient" id="recipient" placeholder="Receipent-Account">
+        <button onclick="transfer()">
+            Transfer
+        </button>
+    </div>
+
+    <div id="successModal" style="display:none;">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button onclick="dashboard()"></button>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
