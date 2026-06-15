@@ -136,6 +136,47 @@ async function transaction_history(){
         })
     });
     const result = await response.json()
+    if (result.success){
+        const historyContainer = document.getElementById("history-data");
+        historyContainer.innerHTML = "";
+        if (result.data.length == 0){
+            historyContainer.innerHTML = "<P> No Transactions Found </p>"
+        }
+        let tableHTML = `
+            <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; text-align: center;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>From Account</th>
+                        <th>To Account</th>
+                        <th>Amount</th>
+                    </tr>
+        `;
+        response.data.forEach(transaction => {
+            tableHTML += `
+                <tr>
+                    <td>${transaction.Transaction_id}</td>
+                    <td>${transaction.Date}</td>
+                    <td>${transaction.Type}</td>
+                    <td>${transaction.Sender}</td>
+                    <td>${transaction.Receipent}</td>
+                    <td>${transaction.Amount}</td>
+                </tr>
+            `;
+        });
+        tableHTML += "</table>";
+        historyContainer.innerHTML = tableHTML;
+        document.getElementById("hist").style.display = "block";
+        document.getElementById("dipo").style.display = "none";
+        document.getElementById("with").style.display = "none";
+        document.getElementById("tran").style.display = "none";
+    }
+    else{
+        document.getElementById("modalMessage").textContent = result.message || "Failed to load history.";
+        document.getElementById("successModal").style.display = "block";
+    }
+    
 }
 
 function dashboard(){
@@ -144,14 +185,23 @@ function dashboard(){
 
 function getDeposite(){
     document.getElementById("dipo").style.display = "block";
+    document.getElementById("with").style.display = "none";
+    document.getElementById("tran").style.display = "none";
+    document.getElementById("hist").style.display = "none";
 }
 
 function getWithdraw(){
     document.getElementById("with").style.display = "block";
+    document.getElementById("dipo").style.display = "none";
+    document.getElementById("tran").style.display = "none";
+    document.getElementById("hist").style.display = "none";
 }
 
 function getTransfer(){
     document.getElementById("tran").style.display = "block";
+    document.getElementById("with").style.display = "none";
+    document.getElementById("dipo").style.display = "none";
+    document.getElementById("hist").style.display = "none";
 }
 
 function goToLogin(){

@@ -168,17 +168,44 @@ class User():
 
     def view_transaction_history(self):
         cursor = self.db.get_cursor()
-        query = "SELECT transaction_id, from_account, to_account, amount, transaction_date, transaction_type FROM transactions WHERE from_account = %s OR to_account = %s ORDER BY transaction_date DESC"
-        cursor.execute(query, (self.account_number, self.account_number))
-        history = cursor.fetchall()
-        for i in history:
-            print("-------------------------------------------------------")
-            if i[5] == "Deposite":
-                print(f"Transaction Type: Deposite || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
-            elif i[5] == "Withdrawn":
-                print(f"Transaction Type: Withdrawn || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
-            elif i[1] == self.account_number:
-                print(f"Transaction Type: Sent || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
-            else:
-                print(f"Transaction Type: Received || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
+        try:
+            query = "SELECT transaction_id, from_account, to_account, amount, transaction_date, transaction_type FROM transactions WHERE from_account = %s OR to_account = %s ORDER BY transaction_date DESC"
+            cursor.execute(query, (self.account_number, self.account_number))
+            history = cursor.fetchall()
+            transactions = []
+            for i in history:
+                # print("-------------------------------------------------------")
+                # if i[5] == "Deposite":
+                #     print(f"Transaction Type: Deposite || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
+                # elif i[5] == "Withdrawn":
+                #     print(f"Transaction Type: Withdrawn || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
+                # elif i[1] == self.account_number:
+                #     print(f"Transaction Type: Sent || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
+                # else:
+                #     print(f"Transaction Type: Received || Transaction id: {i[0]} || Transferred to: {i[2]} || Transferred_from: {i[1]} || Amount: {i[3]} || Date {i[4]}")
+                if i[5] == "Transfer" and i[1] == self.account_number:
+                    transaction_type = "Sent"
+                elif i[5] == "Transfer" and i[2] == self.account_number:
+                    transaction_type = "Received"
+                else:
+                    transaction_type = i[5]
+                transactions.append({
+                    "Transaction_id": i[0],
+                    "Sender": i[1],
+                    "Receipent": i[2],
+                    "Amount": i[3],
+                    "Date": i[4],
+                    "Type": transaction_type
+                })
+            return {
+                "success": True,
+                "data": transactions
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": "Unable to fetch Transaction history"
+            }
+        finally:
+            cursor.close()
             

@@ -94,6 +94,8 @@ def transaction_history():
    name = session["name"]
    account_number = session["account_number"]
    current_user = user.User(name, account_number, db)
+   result = current_user.view_transaction_history()
+   return jsonify(result)
 
 @app.route("/transfer", methods= ["POST"])
 def transfer():
