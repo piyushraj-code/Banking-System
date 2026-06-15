@@ -153,7 +153,7 @@ async function transaction_history(){
                         <th>Amount</th>
                     </tr>
         `;
-        response.data.forEach(transaction => {
+        result.data.forEach(transaction => {
             tableHTML += `
                 <tr>
                     <td>${transaction.Transaction_id}</td>
