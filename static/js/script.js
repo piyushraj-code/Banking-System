@@ -20,6 +20,7 @@ async function login(){
         document.getElementById("successModal").style.display = "block";
     }
 }
+
 async function register(){
     const name = document.getElementById("name").value;
     const password = document.getElementById("password").value;

@@ -10,15 +10,15 @@ class Authentication():
     def register(self, name, balance, password):
         #(name, balance, password) = utils.get_details()
         if not name or not password or not balance:
-            return jsonify({
+            return {
                 "sauccess": False,
                 "message": "Name, balance, password is required"
-            }), 400
+            }
         if len(password) < 8:
-            return jsonify({
+            return {
                 "success": False,
                 "message": "Password must be at least 8 character long"
-            }), 400
+            } 
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode("utf-8")
         while True:
             account_number = utils.generate_account_number()

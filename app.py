@@ -3,10 +3,15 @@ from services import authentication
 from config import database
 from models import user
 import uuid
+from dotenv import load_dotenv
+import os
+load_dotenv()
 db = database.DataBase()
 auth = authentication.Authentication(db)
 app = Flask(__name__)
-app.secret_key = uuid.uuid4().hex
+app.secret_key = os.getenv("SECRET_KEY")
+if not app.secret_key:
+   raise RuntimeError("SECRET_KEY is not set in the environment")
 @app.route('/')
 def index():
    return render_template('register.html')
@@ -15,7 +20,7 @@ def index():
 def login():
    if request.method == "POST":
       data = request.get_json()
-      account_number = data.get("account_number")
+      account_number = int(data.get("account_number"))
       password = data.get("password")
       result = auth.login(account_number, password)
       return jsonify(result)
@@ -53,6 +58,8 @@ def view_balance():
 
 @app.route("/deposite", methods= ["POST"])
 def deposite():
+   if "account_number" not in session:
+      return redirect("/login")
    data = request.get_json()
    amount = int(data.get("amount"))
    name = session["name"]
@@ -63,6 +70,8 @@ def deposite():
 
 @app.route("/withdraw" , methods=["POST"])
 def withdraw():
+   if "account_number" not in session:
+      return redirect("/login")
    data = request.get_json()
    amount = int(data.get("amount"))
    name = session["name"]
@@ -78,17 +87,27 @@ def logout():
       "message": " You have been logged out"
    })
 
-@app.route("/transaction_history")
+@app.route("/transaction_history", methods= ["POST"])
 def transaction_history():
+   if "account_number" not in session:
+      return redirect("/login")
    name = session["name"]
    account_number = session["account_number"]
    current_user = user.User(name, account_number, db)
 
 @app.route("/transfer", methods= ["POST"])
 def transfer():
+   if "account_number" not in session:
+      return redirect("/login")
    data = request.get_json()
-   recipient= int(data.get("recipient"))  
-   amount = int(data.get("amount"))
+   try:
+      recipient= int(data.get("recipient"))  
+      amount = int(data.get("amount"))
+   except Exception as e:
+      return {
+         "success": False,
+         "message": "Enter valid ammount or account number"
+      }
    name = session["name"]
    account_number = session["account_number"]
    current_user = user.User(name, account_number, db)
