@@ -10,40 +10,41 @@ class Authentication():
     def register(self, name, balance, password):
         #(name, balance, password) = utils.get_details()
         cursor = self.db.db.cursor()
-        if not name or not password or not balance:
-            return {
-                "sauccess": False,
-                "message": "Name, balance, password is required"
-            }
-        if len(password) < 8:
-            return {
-                "success": False,
-                "message": "Password must be at least 8 character long"
-            } 
-        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode("utf-8")
-        while True:
-            account_number = utils.generate_account_number()
-            query = "SELECT 1 FROM users WHERE account_number = %s"
-            cursor.execute(query, (account_number,))
-            if not cursor.fetchone():
-                break
         try:
-            query = "INSERT INTO users (name, account_number, balance, password) VALUES(%s, %s, %s, %s)"
-            cursor.execute(query, (name, account_number, balance, hashed_password))
-            self.db.db.commit()
-            return {
-                "success": True,
-                "message": f"Registration Successful your account number is: {account_number}"
-            }
-            # print("Registration Successful")
-            # print(f"You account_number is {account_number} Keep it safe")
-        except Exception as e:
-            self.db.db.rollback()
-            # print("Can't register Please Try again", e)
-            return {
-                "success": False,
-                "message": "Registration Failed"
-            }
+            if not name or not password or not balance:
+                return {
+                    "sauccess": False,
+                    "message": "Name, balance, password is required"
+                }
+            if len(password) < 8:
+                return {
+                    "success": False,
+                    "message": "Password must be at least 8 character long"
+                } 
+            hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode("utf-8")
+            while True:
+                account_number = utils.generate_account_number()
+                query = "SELECT 1 FROM users WHERE account_number = %s"
+                cursor.execute(query, (account_number,))
+                if not cursor.fetchone():
+                    break
+            try:
+                query = "INSERT INTO users (name, account_number, balance, password) VALUES(%s, %s, %s, %s)"
+                cursor.execute(query, (name, account_number, balance, hashed_password))
+                self.db.db.commit()
+                return {
+                    "success": True,
+                    "message": f"Registration Successful your account number is: {account_number}"
+                }
+                # print("Registration Successful")
+                # print(f"You account_number is {account_number} Keep it safe")
+            except Exception as e:
+                self.db.db.rollback()
+                # print("Can't register Please Try again", e)
+                return {
+                    "success": False,
+                    "message": "Registration Failed"
+                }
         finally:
             cursor.close()
     def login(self, account_number, password):

@@ -19,31 +19,32 @@ class User():
                 "message": "Amount must be greater than zero"
             }
         cursor = self.db.db.cursor()
-        if cursor:
-            # query = "SELECT balance FROM users where account_number = %s"
-            # self.db.cunn.execute(query, (self.account_number,))
-            # initial = self.db.cunn.fetchone()
-            # final = initial[0] + amount
-            try:
-                query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
-                cursor.execute(query, (amount, self.account_number))
-                # print(f"{amount} Successfully deposited to account number: {self.account_number}")
-                query = "INSERT INTO transactions (to_account, amount, transaction_type) VALUES (%s, %s, %s)"
-                cursor.execute(query, (self.account_number, amount, "Deposite"))
-                self.db.db.commit()
-                return {
-                    "success": True,
-                    "message": f"{amount} Successfully deposited to account number: {self.account_number}"
-                }
-            except Exception as e:
-                self.db.db.rollback()
-                # print("Deposite Failed!!", e)
-                return {
-                    "success": False,
-                    "message": "Deposite Failed!"
-                }
-            finally:
-                cursor.close()
+        try:
+            if cursor:
+                # query = "SELECT balance FROM users where account_number = %s"
+                # self.db.cunn.execute(query, (self.account_number,))
+                # initial = self.db.cunn.fetchone()
+                # final = initial[0] + amount
+                try:
+                    query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
+                    cursor.execute(query, (amount, self.account_number))
+                    # print(f"{amount} Successfully deposited to account number: {self.account_number}")
+                    query = "INSERT INTO transactions (to_account, amount, transaction_type) VALUES (%s, %s, %s)"
+                    cursor.execute(query, (self.account_number, amount, "Deposite"))
+                    self.db.db.commit()
+                    return {
+                        "success": True,
+                        "message": f"{amount} Successfully deposited to account number: {self.account_number}"
+                    }
+                except Exception as e:
+                    self.db.db.rollback()
+                    # print("Deposite Failed!!", e)
+                    return {
+                        "success": False,
+                        "message": "Deposite Failed!"
+                    }
+        finally:
+            cursor.close()
 
     def withdraw(self, amount):
         if amount <= 0:
