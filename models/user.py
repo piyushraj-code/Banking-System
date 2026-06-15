@@ -11,23 +11,25 @@ class User():
         return f"{self.name} || Account Number: {self.account_number}"
 
     def deposite(self, amount):
+        
         if amount <= 0:
             # print("Amount must be greater than zero")
             return {
                 "success": False,
                 "message": "Amount must be greater than zero"
             }
-        if self.db.cunn:
+        cursor = self.db.db.cursor()
+        if cursor:
             # query = "SELECT balance FROM users where account_number = %s"
             # self.db.cunn.execute(query, (self.account_number,))
             # initial = self.db.cunn.fetchone()
             # final = initial[0] + amount
             try:
                 query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
-                self.db.cunn.execute(query, (amount, self.account_number))
+                cursor.execute(query, (amount, self.account_number))
                 # print(f"{amount} Successfully deposited to account number: {self.account_number}")
                 query = "INSERT INTO transactions (to_account, amount, transaction_type) VALUES (%s, %s, %s)"
-                self.db.cunn.execute(query, (self.account_number, amount, "Deposite"))
+                cursor.execute(query, (self.account_number, amount, "Deposite"))
                 self.db.db.commit()
                 return {
                     "success": True,
@@ -40,6 +42,8 @@ class User():
                     "success": False,
                     "message": "Deposite Failed!"
                 }
+            finally:
+                cursor.close()
 
     def withdraw(self, amount):
         if amount <= 0:
@@ -48,10 +52,11 @@ class User():
                 "success": False,
                 "message": "Amount must be greater than zero"
             }
-        if self.db.cunn:
+        cursor = self.db.db.cursor()
+        if cursor:
             query = "SELECT balance FROM users where account_number = %s"
-            self.db.cunn.execute(query, (self.account_number,))
-            initial = self.db.cunn.fetchone()
+            cursor.execute(query, (self.account_number,))
+            initial = cursor.fetchone()
             if initial[0] < float(amount):
                 # print("Not Enough Balance")
                 return {
@@ -61,10 +66,10 @@ class User():
             else:
                 try:
                     query = "UPDATE users SET balance = balance - %s WHERE account_number = %s"
-                    self.db.cunn.execute(query, (amount, self.account_number))
+                    cursor.execute(query, (amount, self.account_number))
                     # print(f"{amount} Successfully withdrawn from account number: {self.account_number}")
                     query = "INSERT INTO transactions (from_account, amount, transaction_type) VALUES (%s, %s, %s)"
-                    self.db.cunn.execute(query, (self.account_number, amount, "Withdrawn"))
+                    cursor.execute(query, (self.account_number, amount, "Withdrawn"))
                     self.db.db.commit()
                     return {
                         "success": True,
@@ -77,6 +82,8 @@ class User():
                         "success": False,
                         "message": "Withdraw Failed!"
                     }
+                finally:
+                    cursor.close()
 
     def transfer(self, other, amount):
         if amount <= 0:
@@ -91,10 +98,11 @@ class User():
                 "success": False,
                 "message": "Cannot transfer to your own account"
             }
-        if self.db.cunn:
+        cursor = self.db.db.cursor()
+        if cursor:
             query = "SELECT balance FROM users where account_number = %s"
-            self.db.cunn.execute(query, (self.account_number,))
-            my_initial = self.db.cunn.fetchone()
+            cursor.execute(query, (self.account_number,))
+            my_initial = cursor.fetchone()
             if my_initial[0] < float(amount):
                 # print("Not Enough Balance")
                 return {
@@ -104,8 +112,8 @@ class User():
             else:
                 my_final = my_initial[0] - amount
                 query = "SELECT balance FROM users where account_number = %s"
-                self.db.cunn.execute(query, (other,))
-                other_initial = self.db.cunn.fetchone()
+                cursor.execute(query, (other,))
+                other_initial = cursor.fetchone()
                 if other_initial is None:
                     # print("Reciepient account does't exist")
                     return {
@@ -115,13 +123,13 @@ class User():
                 other_final = other_initial[0] + amount
                 try:
                     query = "UPDATE users SET balance = balance - %s WHERE account_number = %s"
-                    self.db.cunn.execute(query, (amount, self.account_number))
+                    cursor.execute(query, (amount, self.account_number))
                     
                     query = "UPDATE users SET balance = balance + %s WHERE account_number = %s"
-                    self.db.cunn.execute(query, (amount, other))
+                    cursor.execute(query, (amount, other))
                    
                     query = "INSERT INTO transactions (from_account, to_account, amount, transaction_type) values (%s, %s, %s, %s)"
-                    self.db.cunn.execute(query, (self.account_number, other, amount, "Transfer"))
+                    cursor.execute(query, (self.account_number, other, amount, "Transfer"))
                     self.db.db.commit()
                     # print(f"{amount} Successfully transferred from account number {self.account_number} to {other}")
                     return {
@@ -135,14 +143,25 @@ class User():
                         "success": False,
                         "message": f"Transactrion Failed {e}"
                     }
+                finally:
+                    cursor.close()
 
     def view_balance(self):
-        query = "SELECT balance FROM users WHERE account_number = %s"
-        self.db.cunn.execute(query, (self.account_number,))
-        current_balance = self.db.cunn.fetchone()
-        return {
-            "message": f"Your Current balance is: {current_balance[0]}"
-        }
+        cursor = self.db.db.cursor()
+        if cursor:
+            try:
+                query = "SELECT balance FROM users WHERE account_number = %s"
+                self.db.cunn.execute(query, (self.account_number,))
+                current_balance = self.db.cunn.fetchone()
+                return {
+                    "message": f"Your Current balance is: {current_balance[0]}"
+                }
+            except Exception as e:
+                return {
+                    "message": "Can't Fetch your balance please try again"
+                }
+            finally:
+                cursor.close()
 
     def view_transaction_history(self):
         query = "SELECT transaction_id, from_account, to_account, amount, transaction_date, transaction_type FROM transactions WHERE from_account = %s OR to_account = %s ORDER BY transaction_date DESC"

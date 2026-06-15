@@ -16,9 +16,9 @@ class DataBase():
                 password = db_password,
                 database="banking_system"
             )
-            self.cunn = self.db.cursor()
+            
             print("DataBase Connection Sucessful")
         except mysql.connector.Error as e:
             print("Database Conncetion error:", e)
             self.db = None
-            self.cunn = None
+            

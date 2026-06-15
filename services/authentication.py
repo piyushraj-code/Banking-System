@@ -9,6 +9,7 @@ class Authentication():
 
     def register(self, name, balance, password):
         #(name, balance, password) = utils.get_details()
+        cursor = self.db.db.cursor()
         if not name or not password or not balance:
             return {
                 "sauccess": False,
@@ -23,12 +24,12 @@ class Authentication():
         while True:
             account_number = utils.generate_account_number()
             query = "SELECT 1 FROM users WHERE account_number = %s"
-            self.db.cunn.execute(query, (account_number,))
-            if not self.db.cunn.fetchone():
+            cursor.execute(query, (account_number,))
+            if not cursor.fetchone():
                 break
         try:
             query = "INSERT INTO users (name, account_number, balance, password) VALUES(%s, %s, %s, %s)"
-            self.db.cunn.execute(query, (name, account_number, balance, hashed_password))
+            cursor.execute(query, (name, account_number, balance, hashed_password))
             self.db.db.commit()
             return {
                 "success": True,
@@ -43,13 +44,16 @@ class Authentication():
                 "success": False,
                 "message": "Registration Failed"
             }
+        finally:
+            cursor.close()
     def login(self, account_number, password):
         # account_number = int(input("Enter your account number: "))
         # password = input("Enter your password: ")
+        cursor = self.db.db.cursor()
         try:
             query = "SELECT password FROM users WHERE account_number = %s"
-            self.db.cunn.execute(query, (account_number, ))
-            result = self.db.cunn.fetchone()
+            cursor.execute(query, (account_number, ))
+            result = cursor.fetchone()
             if result is None:
                 return {
                     "success": False,
@@ -59,8 +63,8 @@ class Authentication():
             elif bcrypt.checkpw(password.encode("utf-8"), result[0].encode("utf-8")):
                 # print("Login SuccessfuL")
                 query = "SELECT name FROM users WHERE account_number = %s"
-                self.db.cunn.execute(query, (account_number,))
-                name = self.db.cunn.fetchone()
+                cursor.execute(query, (account_number,))
+                name = cursor.fetchone()
                 session["account_number"] = account_number
                 session["name"] = name[0]
                 return {
@@ -79,4 +83,6 @@ class Authentication():
                 "success": False,
                 "message": f"Can't login Please try again: {e}"
             }
+        finally:
+            cursor.close()
         
