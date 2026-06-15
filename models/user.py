@@ -151,8 +151,8 @@ class User():
         if cursor:
             try:
                 query = "SELECT balance FROM users WHERE account_number = %s"
-                self.db.cunn.execute(query, (self.account_number,))
-                current_balance = self.db.cunn.fetchone()
+                cursor.execute(query, (self.account_number,))
+                current_balance = cursor.fetchone()
                 return {
                     "message": f"Your Current balance is: {current_balance[0]}"
                 }
@@ -164,9 +164,10 @@ class User():
                 cursor.close()
 
     def view_transaction_history(self):
+        cursor = self.db.db.cursor()
         query = "SELECT transaction_id, from_account, to_account, amount, transaction_date, transaction_type FROM transactions WHERE from_account = %s OR to_account = %s ORDER BY transaction_date DESC"
-        self.db.cunn.execute(query, (self.account_number, self.account_number))
-        history = self.db.cunn.fetchall()
+        cursor.execute(query, (self.account_number, self.account_number))
+        history = cursor.fetchall()
         for i in history:
             print("-------------------------------------------------------")
             if i[5] == "Deposite":
