@@ -1,11 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Bank</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
-    
+    <div class="header">
+        <nav>
+            <div class="title centre-title">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank</h1>
+                <div class="btn-container">
+                    <button class="btn-login" onclick="goToLogin()">
+                        Login
+                    </button>
+                    <button class="btn-register" onclick="goToRegister()">
+                        Register
+                    </button>
+                </div>
+
+            </div>
+
+        </nav>
+    </div>
+    <main class="hero">
+        <div class="hero-content">
+            <h1>
+                The Secure Way to
+                Manage Your Digital
+                Wealth.
+            </h1>
+
+            <p>
+                Join millions trusting DigitalBank for smart savings,
+                secure transactions, and powerful financial tools.
+            </p>
+
+            <button class="cta-btn" onclick="goToRegister()">
+                Open Your Account Today
+            </button>
+        </div>
+
+        <div class="hero-image">
+            <img src="/static/img/dash.png" alt="Dashboard">
+        </div>
+    </main>
+    <div class="quote">
+        <h2>
+            Key To Your Financial Success
+        </h2>
+    </div>
+    <footer>
+        <p>&copy; 2026 Piyush Raj. All rights reserved.</p>
+    </footer>
+    <script src="/static/js/script.js"></script>
 </body>
+
 </html>

@@ -16,8 +16,10 @@ async function login(){
         window.location.href = "/dashboard";
     }
     else{
-        document.getElementById("modalMessage").textContent = result.message;
-        document.getElementById("successModal").style.display = "block";
+        const messageContainer = document.getElementById("msg")
+        messageContainer.innerHTML = ""
+        messageContainer.innerHTML = `<p>${result.message}</p>`
+        document.getElementById("msg").style.display = "block";
     }
 }
 
@@ -37,10 +39,12 @@ async function register(){
         })
     });
     const result = await response.json()
-    if (result.success){
-        document.getElementById("modalMessage").textContent = result.message;
-        document.getElementById("successModal").style.display = "block";
-    }
+    
+    const messageContainer = document.getElementById("msg")
+    messageContainer.innerHTML = ""
+    messageContainer.innerHTML = `<p>${result.message}</p>`
+    document.getElementById("msg").style.display = "block";
+
 }
 
 async function deposite() {
@@ -55,8 +59,9 @@ async function deposite() {
         })
     });
     const result = await response.json()
-    document.getElementById("modalMessage").textContent = result.message;
-    document.getElementById("successModal").style.display = "block";
+    messageContainer = document.getElementById("dipo-msg")
+    messageContainer.innerHTML = ""
+    messageContainer.innerHTML = `<p>${result.message}</p>`
 }
 
 async function withdraw() {
@@ -71,8 +76,10 @@ async function withdraw() {
         })
     });
     const result = await response.json()
-    document.getElementById("modalMessage").textContent = result.message;
-    document.getElementById("successModal").style.display = "block";
+    messageContainer = document.getElementById("with-msg")
+    messageContainer.innerHTML = ""
+    messageContainer.innerHTML = `<p>${result.message}</p>`
+    
 }
 
 async function transfer() {
@@ -89,8 +96,9 @@ async function transfer() {
         })
     });
     const result = await response.json()
-    document.getElementById("modalMessage").textContent = result.message;
-    document.getElementById("successModal").style.display = "block";
+    messageContainer = document.getElementById("tran-msg")
+    messageContainer.innerHTML = ""
+    messageContainer.innerHTML = `<p>${result.message}</p>`
 }
 
 async function view_balance(){
@@ -104,9 +112,12 @@ async function view_balance(){
         })
     });
     const result = await response.json()
-
-    document.getElementById("modalMessage").textContent = result.message;
-    document.getElementById("successModal").style.display = "block";
+    hideall();
+    const balance_message = document.getElementById("bal-msg");
+    document.getElementById("bal").style.display = "flex";
+    balance_message.innerHTML = "";
+    balance_message.innerHTML = `<P> ${result.message} </P>`
+    balance_message.style.display = "block";
 }
 
 async function logout(){
@@ -120,9 +131,9 @@ async function logout(){
         })
     });
     const result = await response.json()
-    
-    document.getElementById("modalMessage").textContent = result.message;
-    document.getElementById("successModal").style.display = "block";
+    if (result.success){
+        window.location.href = result.redirect;
+    }
 }
 
 async function transaction_history(){
@@ -173,8 +184,7 @@ async function transaction_history(){
         document.getElementById("tran").style.display = "none";
     }
     else{
-        document.getElementById("modalMessage").textContent = result.message || "Failed to load history.";
-        document.getElementById("successModal").style.display = "block";
+        historyContainer.innerHTML = `<p>${result.message}</p>`
     }
     
 }
@@ -184,26 +194,33 @@ function dashboard(){
 }
 
 function getDeposite(){
-    document.getElementById("dipo").style.display = "block";
-    document.getElementById("with").style.display = "none";
-    document.getElementById("tran").style.display = "none";
-    document.getElementById("hist").style.display = "none";
+    hideall();
+    document.getElementById("dipo").style.display = "flex";
 }
 
 function getWithdraw(){
-    document.getElementById("with").style.display = "block";
-    document.getElementById("dipo").style.display = "none";
-    document.getElementById("tran").style.display = "none";
-    document.getElementById("hist").style.display = "none";
+    hideall();
+    document.getElementById("with").style.display = "flex";
+    
 }
 
 function getTransfer(){
-    document.getElementById("tran").style.display = "block";
-    document.getElementById("with").style.display = "none";
-    document.getElementById("dipo").style.display = "none";
-    document.getElementById("hist").style.display = "none";
+    hideall();
+    document.getElementById("tran").style.display = "flex";
+    
 }
 
 function goToLogin(){
     window.location.href = "/login";
+}
+function goToRegister(){
+    window.location.href = "/register"
+}
+function hideall(){
+    document.getElementById("dipo").style.display = "none";
+    document.getElementById("bal").style.display = "none";
+    document.getElementById("tran").style.display = "none";
+    document.getElementById("dipo").style.display = "none";
+    document.getElementById("with").style.display = "none";
+    document.getElementById("hist").style.display = "none";
 }

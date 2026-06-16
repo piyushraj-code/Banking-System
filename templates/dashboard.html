@@ -1,93 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <style>
-        #successModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
-    <button onclick="view_balance()">
-        View Balance
-    </button>
-    <br><br>
-
-    <button onclick="getDeposite()">
-        Deposite
-    </button>
-    <br><br>
-
-    <button onclick="getWithdraw()">
-        Withdraw
-    </button>
-    <br><br>
-    
-    <br><br>
-    <button onclick="getTransfer()">
-        Transfer
-    </button>
-    <br><br>
-    <button onclick="transaction_history()">
-        Transaction History
-    </button>
-    <br><br>
-    <button onclick="logout()">
-        Logout
-    </button>
-    <br><br>
-
-    <div id="dipo" style="display: none;">
-        <input type="number" name="amount" id="dipo-amount" placeholder="Amount">
-        <button onclick="deposite()">
-            Deposite
-        </button>
+    <div class="header">
+        <nav class="nav-dash">
+            <div class="centre-title-dash">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank</h1>
+            </div>
+            <div class="logout-btn">
+                <img src="/static/img/log-out.png" alt="" class="logoutimg">
+                <button class="btn-logout" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+        </nav>
     </div>
-    
-    <div id="with" style="display: none;">
-        <input type="number" name="amount" id="with-amount" placeholder="Amount">
-        <button onclick="withdraw()">
-            Withdraw
-        </button>
-    </div>
-
-    <div id="tran" style="display: none;">
-        <input type="number" name="amount" id="amount" placeholder="Amount">
-        <input type="number" name="recipient" id="recipient" placeholder="Receipent-Account">
-        <button onclick="transfer()">
-            Transfer
-        </button>
-    </div>
-
-    <div id="successModal" style="display:none;">
-        <div class="modal-content">
-            <p id="modalMessage"></p>
-            <button onclick="dashboard()">OK</button>
+    <main>
+        <div class="welcome-title">
+            <h2>Welcome Back {{name}}! </h2>
         </div>
-    </div>
+        <div class="operation-card">
+            <button onclick="view_balance()" class="tile-btn">
+                View Balance
+            </button>
+            <button onclick="getDeposite()" class="tile-btn">
+                Deposite
+            </button>
+            <button onclick="getWithdraw()" class="tile-btn">
+                Withdraw
+            </button>
+            <button onclick="getTransfer()" class="tile-btn">
+                Transfer
+            </button>
+            <button onclick="transaction_history()" class="tile-btn">
+                Transaction History
+            </button>
+        </div>
+        <div class="login-container" id="dipo" style="display: none;">
+            <div class="login-card">
+                <h2>Deposit</h2>
+                <input type="number" name="amount" id="dipo-amount" placeholder="Amount">
+                <button onclick="deposite()">
+                    Deposite
+                </button>
+                <div id="dipo-msg" style="text-align: center;">
+                    
+                </div>
 
-    <div id="hist" style="display: none;">
-        <h3>Transaction History</h3>
-        <div id="history-data"></div> 
-        <br>
-        <button onclick="document.getElementById('hist').style.display='none'">Close</button>
-    </div>
-    
+            </div>
+        </div>
+        <div class="login-container" id="with" style="display: none;">
+            <div class="login-card">
+                <h2>Withdraw</h2>
+                <input type="number" name="amount" id="with-amount" placeholder="Amount">
+                <button onclick="withdraw()">
+                    Withdraw
+                </button>
+                <div id="with-msg" style="text-align: center;">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="login-container" id="tran" style="display: none;">
+            <div class="login-card">
+                <h2>Transfer</h2>
+                <input type="number" name="amount" id="amount" placeholder="Amount">
+                <input type="number" name="recipient" id="recipient" placeholder="Receipent-Account">
+                <button onclick="transfer()">
+                    Transfer
+                </button>
+                <div id="tran-msg" style="text-align: center;">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="login-container" id="bal" style="display: none;">
+            <div class="login-card">
+                <h2>Current Balance</h2>
+                <div id="bal-msg" style="text-align: center;">
+
+                </div>
+            </div>
+        </div>
+        <div id="hist" style="display: none;">
+            <h3>Transaction History</h3>
+            <div id="history-data"></div>
+            
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Piyush Raj. All rights reserved.</p>
+    </footer>
     <script src="/static/js/script.js"></script>
 </body>
+
 </html>

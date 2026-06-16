@@ -82,7 +82,7 @@ class Authentication():
             # print("Can't login Please try again: ", e)
             return {
                 "success": False,
-                "message": f"Can't login Please try again: {e}"
+                "message": "Can't login Please try again"
             }
         finally:
             cursor.close()

@@ -5,43 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <style>
-        #successModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <input type="text" name="" id="name" placeholder="Full Name">
-    <br><br>
-    <input type="number" name="balance" id="balance" placeholder="Initital Deposite">
-    <br><br>
-    <input type="password" name="password" id="password" placeholder="Password">
-    <br><br>
-    <button onclick="register()">
-        Register
-    </button>
-    <div id="successModal" style="display:none;">
-        <div class="modal-content">
-            <p id="modalMessage"></p>
-            <button onclick="goToLogin()">continue to login</button>
-        </div>
+    <div class="header">
+        <nav>
+            <div class="centre-title">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank</h1>
+            </div>
+
+        </nav>
     </div>
+    <main class="login-container" id="login-form-container">
+        <div class="login-card">
+            <h2>Register</h2>
+            <label for="name">Name</label>
+            <input type="text" name="" id="name" placeholder="Full Name">
+            <label for="balance">Initital Deposit</label>
+            <input type="number" name="balance" id="balance" placeholder="Initital Deposit">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password">
+            
+            <button onclick="register()">
+                Register
+            </button>
+            <div class="message" id="msg">
+                
+            </div>
+            <a href="/login">Already Register continue to login</a>
+        </div>
+    </main>
+    
     <br><br>
-    <a href="http://127.0.0.1:5000/login">Already Register continue to login</a>
+    <footer>
+        <p>&copy; 2026 Piyush Raj. All rights reserved.</p>
+    </footer>
     <script src="/static/js/script.js"></script>
 </body>
 

@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, session, jsonify
 from services import authentication
 from config import database
 from models import user
-import uuid
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -14,7 +13,7 @@ if not app.secret_key:
    raise RuntimeError("SECRET_KEY is not set in the environment")
 @app.route('/')
 def index():
-   return render_template('register.html')
+   return render_template('index.html')
 
 @app.route("/login", methods= ["GET","POST"])
 def login():
@@ -44,7 +43,8 @@ def register():
 def dashboard():
    if "account_number" not in session:
       return redirect("/login")
-   return render_template("dashboard.html")
+   name = session["name"]
+   return render_template("dashboard.html", name = name)
 
 @app.route("/view_balance", methods= ["GET", "POST"])
 def view_balance():
@@ -83,9 +83,10 @@ def withdraw():
 @app.route("/logout", methods= ["GET", "POST"])
 def logout():
    session.clear()
-   return jsonify({
-      "message": " You have been logged out"
-   })
+   return {
+      "success": True,
+      "redirect": "/"
+   }
 
 @app.route("/transaction_history", methods= ["POST"])
 def transaction_history():

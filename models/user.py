@@ -157,6 +157,7 @@ class User():
                 cursor.execute(query, (self.account_number,))
                 current_balance = cursor.fetchone()
                 return {
+                    "success": True,
                     "message": f"Your Current balance is: {current_balance[0]}"
                 }
             except Exception as e:

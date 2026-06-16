@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        #successModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
-    <input type="number" name="" id="account_number" placeholder="Account Number">
-    <br><br>
-    <input type="password" name="password" id="password" placeholder="Password">
-    <br><br>
-    <button onclick="login()">
-        Login
-    </button>
-    <div id="successModal" style="display:none;">
-        <div class="modal-content">
-            <p id="modalMessage"></p>
-            <button onclick="goToLogin()">OK</button>
-        </div>
+    <div class="header">
+        <nav>
+            <div class="centre-title">
+                <img src="/static/img/bank.png" alt="" class="img">
+                <h1 class="head">Digital Bank</h1>
+            </div>
+
+        </nav>
     </div>
-    <br><br>
-    <a href="http://127.0.0.1:5000/register">New User? Register now</a>
+    <main class="login-container" id="login-form-container">
+        <div class="login-card">
+            <h2>Login</h2>
+            <label for="account_number">Account Number</label>
+            <input type="number" name="" id="account_number" placeholder="Account Number">
+            
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password">
+            
+            <button onclick="login()">
+                Login
+            </button>
+            <div class="message" id="msg">
+                
+            </div>
+            <a href="/register">New User? Register now</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Piyush Raj. All rights reserved.</p>
+    </footer>
     <script src="/static/js/script.js"></script>
 </body>
+
 </html>
